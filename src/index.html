@@ -25,6 +25,9 @@
   <!-- Card area -->
   <main class="flex flex-1 flex-col items-center justify-center w-full">
 
+    <!-- Hint text -->
+    <p id="hint" class="mb-4 text-blue-700 text-sm font-bold animate-pulse">Tap to flip</p>
+
     <!-- Pile wrapper – shadow cards are inserted here by JS -->
     <div id="pile-wrapper" class="relative flex items-center justify-center"
          style="width: min(260px, 72vw); height: min(360px, 56vh);">
@@ -59,9 +62,6 @@
         </div>
       </div>
     </div>
-
-    <!-- Hint text -->
-    <p id="hint" class="mt-8 text-blue-700 text-sm font-bold animate-pulse">Tap to flip</p>
 
     <!-- Word counter – always visible below the card -->
     <div id="counter" class="counter-number text-blue-700 font-black mt-1"></div>
