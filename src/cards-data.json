@@ -1,7 +1,0 @@
-[
-  { "letter": "A", "question": "Name an animal with this letter" },
-  { "letter": "B", "question": "Name a fruit with this letter" },
-  { "letter": "C", "question": "Name a city with this letter" },
-  { "letter": "D", "question": "Name a movie with this letter" },
-  { "letter": "E", "question": "Name a sport with this letter" }
-]
