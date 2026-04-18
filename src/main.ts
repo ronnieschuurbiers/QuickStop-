@@ -97,7 +97,7 @@ async function loadCards(): Promise<void> {
     isReady = true;
     showCard();
   } catch (error) {
-    console.error("Unable to load card data. Please refresh the page to try again.", error);
+    console.error("Failed to load card data.", error);
     pileWrapper.classList.add("hidden");
     emptyState.classList.remove("hidden");
     hintEl.classList.add("hidden");
