@@ -145,7 +145,7 @@ function handleCardTap(): void {
     if (wordCounter >= wordCount) {
       // All words counted – fly the card away
       isAnimating = true;
-      hintEl.textContent = "";
+      hintEl.textContent = "Tap to flip";
       setTimeout(() => {
         scene.classList.add("fly-away");
         scene.addEventListener(
