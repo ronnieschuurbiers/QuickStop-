@@ -3,34 +3,59 @@ interface Card {
   question: string;
 }
 
-const CARDS_DATA_PATH = "./cards-data.json";
+// ── Card data ─────────────────────────────────────────────────
+const CARDS: Card[] = [
+  { letter: "A", question: "Name an animal with this letter" },
+  { letter: "B", question: "Name a fruit with this letter" },
+  { letter: "C", question: "Name a city with this letter" },
+  { letter: "D", question: "Name a movie with this letter" },
+  { letter: "E", question: "Name a sport with this letter" },
+  { letter: "F", question: "Name a food with this letter" },
+  { letter: "G", question: "Name a country with this letter" },
+  { letter: "H", question: "Name a household item with this letter" },
+  { letter: "I", question: "Name an insect with this letter" },
+  { letter: "J", question: "Name a job with this letter" },
+  { letter: "K", question: "Name something in the kitchen with this letter" },
+  { letter: "L", question: "Name a language with this letter" },
+  { letter: "M", question: "Name a musical instrument with this letter" },
+  { letter: "N", question: "Name a country in Europe with this letter" },
+  { letter: "O", question: "Name an ocean or sea with this letter" },
+  { letter: "P", question: "Name a planet or space term with this letter" },
+  { letter: "Q", question: "Name something quiet with this letter" },
+  { letter: "R", question: "Name a river with this letter" },
+  { letter: "S", question: "Name a sport with this letter" },
+  { letter: "T", question: "Name a tree with this letter" },
+  { letter: "U", question: "Name something you use every day with this letter" },
+  { letter: "V", question: "Name a vegetable with this letter" },
+  { letter: "W", question: "Name a weather phenomenon with this letter" },
+  { letter: "X", question: "Name something that starts with X" },
+  { letter: "Y", question: "Name something yellow with this letter" },
+  { letter: "Z", question: "Name an animal from the zoo with this letter" },
+];
+
 const SHADOW_CARD_COUNT = 4;
 
 // ── State ─────────────────────────────────────────────────────
-let cards: Card[] = [];
 let currentIndex = 0;
 let isFlipped = false;
 let isAnimating = false;
-let isReady = false;
 
 // ── DOM refs ──────────────────────────────────────────────────
-const scene           = document.getElementById("card-scene")!;
-const cardEl          = document.getElementById("card")!;
-const letterEl        = document.getElementById("card-letter")!;
-const letterTopLeftEl = document.getElementById("card-letter-top-left")!;
+const scene            = document.getElementById("card-scene")!;
+const letterEl         = document.getElementById("card-letter")!;
+const letterTopLeftEl  = document.getElementById("card-letter-top-left")!;
 const letterTopRightEl = document.getElementById("card-letter-top-right")!;
-const questionEl      = document.getElementById("card-question")!;
-const remainingEl  = document.getElementById("remaining")!;
-const emptyState   = document.getElementById("empty-state")!;
-const pileWrapper  = document.getElementById("pile-wrapper")!;
-const hintEl       = document.getElementById("hint")!;
+const questionEl       = document.getElementById("card-question")!;
+const remainingEl      = document.getElementById("remaining")!;
+const emptyState       = document.getElementById("empty-state")!;
+const pileWrapper      = document.getElementById("pile-wrapper")!;
+const hintEl           = document.getElementById("hint")!;
 
 // ── Pile shadow cards ─────────────────────────────────────────
 function renderShadowCards(): void {
-  // Remove old shadows
   pileWrapper.querySelectorAll(".shadow-card").forEach((n) => n.remove());
 
-  const count = SHADOW_CARD_COUNT;
+  const count = Math.min(SHADOW_CARD_COUNT, CARDS.length - currentIndex - 1);
   for (let i = count; i >= 1; i--) {
     const div = document.createElement("div");
     div.className = "shadow-card";
@@ -42,26 +67,24 @@ function renderShadowCards(): void {
 
 // ── Show current card ─────────────────────────────────────────
 function showCard(): void {
-  if (currentIndex >= cards.length) {
+  if (currentIndex >= CARDS.length) {
     pileWrapper.classList.add("hidden");
     emptyState.classList.remove("hidden");
     hintEl.classList.add("hidden");
     return;
   }
 
-  const card = cards[currentIndex];
+  const card = CARDS[currentIndex];
   letterEl.textContent = card.letter;
   letterTopLeftEl.textContent = card.letter;
   letterTopRightEl.textContent = card.letter;
   questionEl.textContent = card.question;
 
-  // Reset state
+  // Reset card state
   isFlipped = false;
-  scene.classList.remove("flipped");
-  cardEl.classList.remove("fly-away");
-  cardEl.style.visibility = "visible";
+  scene.classList.remove("flipped", "fly-away");
 
-  const behind = cards.length - currentIndex - 1;
+  const behind = CARDS.length - currentIndex - 1;
   remainingEl.textContent = String(behind);
   renderShadowCards();
 
@@ -69,52 +92,8 @@ function showCard(): void {
   hintEl.classList.remove("hidden");
 }
 
-function isCardArray(data: unknown): data is Card[] {
-  return (
-    Array.isArray(data) &&
-    data.every(
-      (card) =>
-        typeof card === "object" &&
-        card !== null &&
-        "letter" in card &&
-        "question" in card &&
-        typeof (card as Card).letter === "string" &&
-        typeof (card as Card).question === "string"
-    )
-  );
-}
-
-function getFallbackCards(): Card[] {
-  const letter = (letterEl.textContent ?? "").trim() || "A";
-  const question = (questionEl.textContent ?? "").trim() || "Name an animal with this letter";
-  return [{ letter, question }];
-}
-
-async function loadCards(): Promise<void> {
-  try {
-    const response = await fetch(CARDS_DATA_PATH);
-    if (!response.ok) {
-      throw new Error(`Failed to fetch ${CARDS_DATA_PATH}: HTTP ${response.status}`);
-    }
-
-    const data: unknown = await response.json();
-    if (!isCardArray(data)) throw new Error("Invalid card data format");
-    if (data.length === 0) throw new Error("Card data is empty");
-
-    cards = data;
-    isReady = true;
-    showCard();
-  } catch (error) {
-    console.error("Failed to load card data.", error);
-    cards = getFallbackCards();
-    currentIndex = 0;
-    isReady = true;
-    showCard();
-  }
-}
-
 function handleCardTap(): void {
-  if (!isReady || isAnimating) return;
+  if (isAnimating) return;
 
   if (!isFlipped) {
     // Flip card to show prompt
@@ -122,12 +101,12 @@ function handleCardTap(): void {
     scene.classList.add("flipped");
     hintEl.textContent = "Tap to send away";
   } else {
-    // Fly the card away
+    // Fly the entire scene away (preserves the flipped state visually)
     isAnimating = true;
     hintEl.classList.add("hidden");
-    cardEl.classList.add("fly-away");
+    scene.classList.add("fly-away");
 
-    cardEl.addEventListener(
+    scene.addEventListener(
       "animationend",
       () => {
         currentIndex++;
@@ -140,9 +119,9 @@ function handleCardTap(): void {
 }
 
 // ── Card tap/click handler ────────────────────────────────────
-scene.addEventListener("click", (event) => {
+scene.addEventListener("click", () => {
   handleCardTap();
 });
 
 // ── Boot ──────────────────────────────────────────────────────
-void loadCards();
+showCard();
