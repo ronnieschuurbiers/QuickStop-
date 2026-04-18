@@ -32,14 +32,15 @@
 
 /* Back of card – shown first */
 .card-back-face {
-  background: linear-gradient(135deg, #c1121f 0%, #e63946 100%);
+  background: linear-gradient(135deg, #f4c430 0%, #e7b416 100%);
   color: #fff;
   flex-direction: column;
 }
 
 /* Front of card – shown after flip */
 .card-front-face {
-  background: linear-gradient(160deg, #f8f9fa 0%, #e9ecef 100%);
+  background: linear-gradient(160deg, #f4c430 0%, #e7b416 100%);
+  color: #fff;
   transform: rotateY(180deg);
   flex-direction: column;
   padding: 1.5rem;
@@ -59,7 +60,7 @@
 /* ── Shadow cards (pile effect) ─────────────────────────────── */
 .shadow-card {
   border-radius: 1.25rem;
-  background: #e63946;
+  background: #e7b416;
   position: absolute;
   inset: 0;
   border: 2px solid rgba(255,255,255,0.15);
