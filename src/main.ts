@@ -11,6 +11,7 @@ let currentIndex = 0;
 let isFlipped = false;
 let isAnimating = false;
 let isReady = false;
+let suppressClickUntil = 0;
 
 // ── DOM refs ──────────────────────────────────────────────────
 const scene           = document.getElementById("card-scene")!;
@@ -25,16 +26,16 @@ const pileWrapper  = document.getElementById("pile-wrapper")!;
 const hintEl       = document.getElementById("hint")!;
 
 // ── Pile shadow cards ─────────────────────────────────────────
-function renderShadowCards(behind: number): void {
+function renderShadowCards(): void {
   // Remove old shadows
   pileWrapper.querySelectorAll(".shadow-card").forEach((n) => n.remove());
 
-  const count = Math.min(behind, 3);
+  const count = 4;
   for (let i = count; i >= 1; i--) {
     const div = document.createElement("div");
     div.className = "shadow-card";
-    div.style.transform = `translateX(${i * 5}px) translateY(${i * 5}px) rotate(${i * 2}deg)`;
-    div.style.zIndex = String(-i);
+    div.style.transform = `translateX(${i * 4}px) translateY(${i * 5}px) rotate(${i * 1.5}deg)`;
+    div.style.zIndex = String(10 - i);
     pileWrapper.insertBefore(div, scene);
   }
 }
@@ -62,7 +63,7 @@ function showCard(): void {
 
   const behind = cards.length - currentIndex - 1;
   remainingEl.textContent = String(behind);
-  renderShadowCards(behind);
+  renderShadowCards();
 
   hintEl.textContent = "Tap to flip";
   hintEl.classList.remove("hidden");
@@ -104,8 +105,7 @@ async function loadCards(): Promise<void> {
   }
 }
 
-// ── Card click ────────────────────────────────────────────────
-scene.addEventListener("click", () => {
+function handleCardTap(): void {
   if (!isReady || isAnimating) return;
 
   if (!isFlipped) {
@@ -129,6 +129,18 @@ scene.addEventListener("click", () => {
       { once: true }
     );
   }
+}
+
+// ── Card tap/click handlers ───────────────────────────────────
+scene.addEventListener("touchend", (event) => {
+  event.preventDefault();
+  suppressClickUntil = Date.now() + 500;
+  handleCardTap();
+}, { passive: false });
+
+scene.addEventListener("click", () => {
+  if (Date.now() < suppressClickUntil) return;
+  handleCardTap();
 });
 
 // ── Boot ──────────────────────────────────────────────────────
