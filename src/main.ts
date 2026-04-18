@@ -145,6 +145,8 @@ scene.addEventListener("pointerup", (event) => {
 });
 
 scene.addEventListener("click", (event) => {
+  // Keep click as a keyboard accessibility fallback only (Enter/Space => detail 0).
+  // Pointer/mouse clicks are already handled by pointerup above.
   if (event.detail !== 0) return;
   handleCardTap();
 });
