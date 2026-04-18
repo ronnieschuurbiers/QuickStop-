@@ -48,6 +48,16 @@
   padding: 1.5rem;
 }
 
+/* ── Card enter (fade-in) ────────────────────────────────────── */
+@keyframes card-enter {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.card-enter {
+  animation: card-enter 0.4s ease-out forwards;
+}
+
 /* ── Fly-away animation ──────────────────────────────────────── */
 @keyframes fly-away {
   0%   { transform: translateY(0)      rotate(0deg);  opacity: 1; }

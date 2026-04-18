@@ -105,11 +105,12 @@ function showCard(): void {
   // appears instantly on the front face without an unwanted animation.
   isFlipped = false;
   cardInner.style.transition = "none";
-  scene.classList.remove("flipped", "fly-away");
+  scene.classList.remove("flipped", "fly-away", "card-enter");
   // Force a reflow so the browser applies the instant reset before
   // we re-enable the transition for the next user-triggered flip.
   void cardInner.offsetHeight;
   cardInner.style.transition = "";
+  scene.classList.add("card-enter");
 
   const behind = CARDS.length - currentIndex - 1;
   remainingEl.textContent = String(behind);
@@ -145,7 +146,7 @@ function handleCardTap(): void {
     if (wordCounter >= wordCount) {
       // All words counted – fly the card away
       isAnimating = true;
-      hintEl.textContent = "";
+      hintEl.textContent = "Tap to flip";
       setTimeout(() => {
         scene.classList.add("fly-away");
         scene.addEventListener(
