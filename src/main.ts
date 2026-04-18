@@ -131,6 +131,11 @@ function handleCardTap(): void {
     isFlipped = true;
     scene.classList.add("flipped");
     hintEl.textContent = "Tap to count";
+
+    // Show the word counter immediately (0/N) so it's always visible on the front face
+    const wordCount = CARDS[currentIndex].wordCount;
+    counterEl.textContent = `0/${wordCount}`;
+    counterEl.classList.remove("hidden");
   } else {
     // Each tap increments the counter by one
     wordCounter++;
