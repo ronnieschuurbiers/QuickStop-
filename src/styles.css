@@ -41,7 +41,7 @@
 
 /* Front of card – shown after flip */
 .card-front-face {
-  background: #000;
+  background: linear-gradient(135deg, #1d4ed8 0%, #1e3a8a 100%);
   color: #fff;
   transform: rotateY(180deg);
   flex-direction: column;
