@@ -125,7 +125,7 @@ function handleCardTap(): void {
   } else {
     // Fly the entire scene away (preserves the flipped state visually)
     isAnimating = true;
-    hintEl.classList.add("hidden");
+    hintEl.textContent = "";
     scene.classList.add("fly-away");
 
     scene.addEventListener(
