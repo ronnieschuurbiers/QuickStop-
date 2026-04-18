@@ -35,10 +35,20 @@
         <div id="card" class="card-inner w-full h-full">
 
           <!-- Back face: letter -->
-          <div class="card-face card-back-face border-4 border-white/35 relative">
-            <span class="absolute top-4 left-4 text-white text-2xl font-black leading-none" id="card-letter-top-left"></span>
-            <span class="absolute top-4 right-4 text-white text-2xl font-black leading-none" id="card-letter-top-right"></span>
-            <span class="text-[6rem] font-black leading-none drop-shadow-lg" id="card-letter"></span>
+          <div class="card-face card-back-face border border-gray-200 relative overflow-hidden">
+            <!-- Yellow section with clipped bottom-right corner -->
+            <div class="card-yellow-area absolute inset-0">
+              <span class="absolute top-4 left-4 text-white text-2xl font-black leading-none" id="card-letter-top-left"></span>
+              <span class="absolute top-4 right-4 text-white text-2xl font-black leading-none" id="card-letter-top-right"></span>
+              <span class="absolute text-[6rem] font-black leading-none text-white drop-shadow-lg"
+                    style="top: 40%; left: 50%; transform: translate(-50%, -50%)"
+                    id="card-letter"></span>
+            </div>
+            <!-- Lightning bolts in white bottom-right corner -->
+            <div class="absolute bottom-4 right-3 flex gap-0.5 leading-none">
+              <span class="text-[#f4c430] text-2xl">⚡</span>
+              <span class="text-[#f4c430] text-2xl">⚡</span>
+            </div>
           </div>
 
           <!-- Front face: prompt -->
