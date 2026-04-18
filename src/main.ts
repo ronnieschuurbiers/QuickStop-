@@ -84,6 +84,12 @@ function isCardArray(data: unknown): data is Card[] {
   );
 }
 
+function getFallbackCards(): Card[] {
+  const letter = (letterEl.textContent ?? "").trim() || "A";
+  const question = (questionEl.textContent ?? "").trim() || "Name an animal with this letter";
+  return [{ letter, question }];
+}
+
 async function loadCards(): Promise<void> {
   try {
     const response = await fetch(CARDS_DATA_PATH);
@@ -93,15 +99,17 @@ async function loadCards(): Promise<void> {
 
     const data: unknown = await response.json();
     if (!isCardArray(data)) throw new Error("Invalid card data format");
+    if (data.length === 0) throw new Error("Card data is empty");
 
     cards = data;
     isReady = true;
     showCard();
   } catch (error) {
     console.error("Failed to load card data.", error);
-    pileWrapper.classList.add("hidden");
-    emptyState.classList.remove("hidden");
-    hintEl.classList.add("hidden");
+    cards = getFallbackCards();
+    currentIndex = 0;
+    isReady = true;
+    showCard();
   }
 }
 
