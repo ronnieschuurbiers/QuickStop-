@@ -133,7 +133,6 @@ function handleCardTap(): void {
 
 // ── Card tap/click handler ────────────────────────────────────
 scene.addEventListener("click", (event) => {
-  if (event.button !== 0) return;
   handleCardTap();
 });
 
