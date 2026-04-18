@@ -133,11 +133,11 @@ function handleCardTap(): void {
 }
 
 // ── Card tap/click handlers ───────────────────────────────────
-scene.addEventListener("touchend", (event) => {
-  event.preventDefault();
+scene.addEventListener("pointerup", (event) => {
+  if (event.pointerType === "mouse" && event.button !== 0) return;
   suppressClickUntil = Date.now() + CLICK_SUPPRESSION_DELAY_MS;
   handleCardTap();
-}, { passive: false });
+});
 
 scene.addEventListener("click", () => {
   if (Date.now() < suppressClickUntil) return;
