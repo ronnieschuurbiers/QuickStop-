@@ -6,6 +6,7 @@ interface Card {
 const CARDS_DATA_PATH = "./cards-data.json";
 const CLICK_SUPPRESSION_DELAY_MS = 500;
 const PRIMARY_MOUSE_BUTTON = 0;
+const SHADOW_CARD_COUNT = 4;
 
 // ── State ─────────────────────────────────────────────────────
 let cards: Card[] = [];
@@ -32,7 +33,7 @@ function renderShadowCards(): void {
   // Remove old shadows
   pileWrapper.querySelectorAll(".shadow-card").forEach((n) => n.remove());
 
-  const count = 4;
+  const count = SHADOW_CARD_COUNT;
   for (let i = count; i >= 1; i--) {
     const div = document.createElement("div");
     div.className = "shadow-card";
@@ -135,7 +136,9 @@ function handleCardTap(): void {
 
 // ── Card tap/click handlers ───────────────────────────────────
 scene.addEventListener("pointerup", (event) => {
-  if (event.pointerType === "mouse" && event.button !== PRIMARY_MOUSE_BUTTON) return;
+  if (event.pointerType === "mouse") {
+    if (event.button !== PRIMARY_MOUSE_BUTTON) return;
+  }
   suppressClickUntil = performance.now() + CLICK_SUPPRESSION_DELAY_MS;
   handleCardTap();
 });
