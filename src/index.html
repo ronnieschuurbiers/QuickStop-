@@ -63,9 +63,6 @@
       </div>
     </div>
 
-    <!-- Word counter – always visible below the card -->
-    <div id="counter" class="counter-number text-blue-700 font-black mt-8"></div>
-
     <!-- Empty state -->
     <div id="empty-state" class="hidden flex-col items-center justify-center text-center px-6">
       <p class="text-6xl mb-4">🎉</p>
@@ -79,8 +76,9 @@
 
   </main>
 
-  <!-- Footer: remaining cards -->
-  <footer class="w-full text-center py-2">
+  <!-- Footer: word counter + remaining cards -->
+  <footer class="w-full text-center py-2 flex flex-col items-center gap-1">
+    <div id="counter" class="counter-number text-blue-700 font-black"></div>
     <p class="text-blue-700 text-base">
       <span id="remaining">0</span> cards remaining
     </p>
