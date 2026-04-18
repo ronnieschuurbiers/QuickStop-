@@ -56,6 +56,7 @@ const SHADOW_CARD_COUNT = 4;
 let currentIndex = 0;
 let isFlipped = false;
 let isAnimating = false;
+let wordCounter = 0;
 
 // ── DOM refs ──────────────────────────────────────────────────
 const scene            = document.getElementById("card-scene")!;
@@ -116,6 +117,7 @@ function showCard(): void {
 
   counterEl.classList.add("hidden");
   counterEl.textContent = "";
+  wordCounter = 0;
 
   hintEl.textContent = "Tap to flip";
   hintEl.classList.remove("hidden");
@@ -130,41 +132,34 @@ function handleCardTap(): void {
     scene.classList.add("flipped");
     hintEl.textContent = "Tap to count";
   } else {
-    // Start word counter, then fly the card away
-    isAnimating = true;
-    hintEl.textContent = "";
-
-    const wordCount = CARDS[currentIndex].wordCount;
+    // Each tap increments the counter by one
+    wordCounter++;
     counterEl.classList.remove("hidden");
 
-    let count = 0;
-    function tick(): void {
-      count++;
-      // Replay the pop animation for each new number
-      counterEl.style.animation = "none";
-      void counterEl.offsetHeight;
-      counterEl.style.animation = "";
-      counterEl.textContent = String(count);
+    // Replay the pop animation for each new number
+    counterEl.style.animation = "none";
+    void counterEl.offsetHeight;
+    counterEl.style.animation = "";
+    counterEl.textContent = String(wordCounter);
 
-      if (count < wordCount) {
-        setTimeout(tick, 700);
-      } else {
-        // All words counted – fly the card away
-        setTimeout(() => {
-          scene.classList.add("fly-away");
-          scene.addEventListener(
-            "animationend",
-            () => {
-              currentIndex++;
-              isAnimating = false;
-              showCard();
-            },
-            { once: true }
-          );
-        }, 500);
-      }
+    const wordCount = CARDS[currentIndex].wordCount;
+    if (wordCounter >= wordCount) {
+      // All words counted – fly the card away
+      isAnimating = true;
+      hintEl.textContent = "";
+      setTimeout(() => {
+        scene.classList.add("fly-away");
+        scene.addEventListener(
+          "animationend",
+          () => {
+            currentIndex++;
+            isAnimating = false;
+            showCard();
+          },
+          { once: true }
+        );
+      }, 500);
     }
-    setTimeout(tick, 300);
   }
 }
 
