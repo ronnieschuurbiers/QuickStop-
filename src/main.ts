@@ -4,7 +4,6 @@ interface Card {
 }
 
 const CARDS_DATA_PATH = "./cards-data.json";
-const PRIMARY_MOUSE_BUTTON = 0;
 const SHADOW_CARD_COUNT = 4;
 
 // ── State ─────────────────────────────────────────────────────
@@ -13,7 +12,6 @@ let currentIndex = 0;
 let isFlipped = false;
 let isAnimating = false;
 let isReady = false;
-let activePointerId: number | null = null;
 
 // ── DOM refs ──────────────────────────────────────────────────
 const scene           = document.getElementById("card-scene")!;
@@ -133,42 +131,9 @@ function handleCardTap(): void {
   }
 }
 
-// ── Card tap/click handlers ───────────────────────────────────
-scene.addEventListener("pointerdown", (event) => {
-  if (event.pointerType === "mouse") {
-    if (event.button !== PRIMARY_MOUSE_BUTTON) return;
-  } else if (event.pointerType !== "touch" && event.pointerType !== "pen") {
-    return;
-  }
-
-  activePointerId = event.pointerId;
-});
-
-scene.addEventListener("pointerup", (event) => {
-  if (activePointerId === null || event.pointerId !== activePointerId) return;
-
-  if (event.pointerType === "mouse") {
-    if (event.button !== PRIMARY_MOUSE_BUTTON) {
-      activePointerId = null;
-      return;
-    }
-  } else if (event.pointerType !== "touch" && event.pointerType !== "pen") {
-    activePointerId = null;
-    return;
-  }
-
-  handleCardTap();
-  activePointerId = null;
-});
-
-scene.addEventListener("pointercancel", () => {
-  activePointerId = null;
-});
-
-scene.addEventListener("keydown", (event) => {
-  if (event.key !== "Enter" && event.code !== "Space") return;
-  if (event.repeat) return;
-  event.preventDefault();
+// ── Card tap/click handler ────────────────────────────────────
+scene.addEventListener("click", (event) => {
+  if (event.button !== 0) return;
   handleCardTap();
 });
 
