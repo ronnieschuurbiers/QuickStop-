@@ -4,7 +4,7 @@ interface Card {
 }
 
 const CARDS_DATA_PATH = "./cards-data.json";
-const CLICK_SUPPRESSION_DELAY_MS = 500;
+const CLICK_SUPPRESSION_DELAY_MS = 300;
 const PRIMARY_MOUSE_BUTTON = 0;
 const SHADOW_CARD_COUNT = 4;
 
@@ -138,7 +138,10 @@ function handleCardTap(): void {
 scene.addEventListener("pointerup", (event) => {
   if (event.pointerType === "mouse") {
     if (event.button !== PRIMARY_MOUSE_BUTTON) return;
+  } else if (event.pointerType !== "touch" && event.pointerType !== "pen") {
+    return;
   }
+
   suppressClickUntil = performance.now() + CLICK_SUPPRESSION_DELAY_MS;
   handleCardTap();
 });
