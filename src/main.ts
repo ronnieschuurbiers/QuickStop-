@@ -13,6 +13,7 @@ let currentIndex = 0;
 let isFlipped = false;
 let isAnimating = false;
 let isReady = false;
+let activePointerId: number | null = null;
 
 // ── DOM refs ──────────────────────────────────────────────────
 const scene           = document.getElementById("card-scene")!;
@@ -133,7 +134,20 @@ function handleCardTap(): void {
 }
 
 // ── Card tap/click handlers ───────────────────────────────────
+scene.addEventListener("pointerdown", (event) => {
+  if (event.pointerType === "mouse") {
+    if (event.button !== PRIMARY_MOUSE_BUTTON) return;
+  } else if (event.pointerType !== "touch" && event.pointerType !== "pen") {
+    return;
+  }
+
+  activePointerId = event.pointerId;
+});
+
 scene.addEventListener("pointerup", (event) => {
+  if (activePointerId === null || event.pointerId !== activePointerId) return;
+  activePointerId = null;
+
   if (event.pointerType === "mouse") {
     if (event.button !== PRIMARY_MOUSE_BUTTON) return;
   } else if (event.pointerType !== "touch" && event.pointerType !== "pen") {
@@ -143,10 +157,13 @@ scene.addEventListener("pointerup", (event) => {
   handleCardTap();
 });
 
-scene.addEventListener("click", (event) => {
-  // Keep click as a keyboard accessibility fallback only (Enter/Space => detail 0).
-  // Pointer/mouse clicks are already handled by pointerup above.
-  if (event.detail !== 0) return;
+scene.addEventListener("pointercancel", () => {
+  activePointerId = null;
+});
+
+scene.addEventListener("keydown", (event) => {
+  if (event.key !== "Enter" && event.key !== " ") return;
+  event.preventDefault();
   handleCardTap();
 });
 
