@@ -3,35 +3,50 @@ interface Card {
   question: string;
 }
 
-// ── Card data ─────────────────────────────────────────────────
-const CARDS: Card[] = [
-  { letter: "A", question: "Name an animal with this letter" },
-  { letter: "B", question: "Name a fruit with this letter" },
-  { letter: "C", question: "Name a city with this letter" },
-  { letter: "D", question: "Name a movie with this letter" },
-  { letter: "E", question: "Name a sport with this letter" },
-  { letter: "F", question: "Name a food with this letter" },
-  { letter: "G", question: "Name a country with this letter" },
-  { letter: "H", question: "Name a household item with this letter" },
-  { letter: "I", question: "Name an insect with this letter" },
-  { letter: "J", question: "Name a job with this letter" },
-  { letter: "K", question: "Name something in the kitchen with this letter" },
-  { letter: "L", question: "Name a language with this letter" },
-  { letter: "M", question: "Name a musical instrument with this letter" },
-  { letter: "N", question: "Name a country in Europe with this letter" },
-  { letter: "O", question: "Name an ocean or sea with this letter" },
-  { letter: "P", question: "Name a planet or space term with this letter" },
-  { letter: "Q", question: "Name something quiet with this letter" },
-  { letter: "R", question: "Name a river with this letter" },
-  { letter: "S", question: "Name a sport with this letter" },
-  { letter: "T", question: "Name a tree with this letter" },
-  { letter: "U", question: "Name something you use every day with this letter" },
-  { letter: "V", question: "Name a vegetable with this letter" },
-  { letter: "W", question: "Name a weather phenomenon with this letter" },
-  { letter: "X", question: "Name something that starts with X" },
-  { letter: "Y", question: "Name something yellow with this letter" },
-  { letter: "Z", question: "Name an animal from the zoo with this letter" },
+interface Question {
+  letters: string[];
+  question: string;
+}
+
+// ── Question data (each question maps to one card per letter) ──
+const QUESTIONS: Question[] = [
+  { letters: ["A", "B", "C"],    question: "Name an animal" },
+  { letters: ["D", "E"],         question: "Name a movie" },
+  { letters: ["F", "G", "H"],    question: "Name a food" },
+  { letters: ["I", "J"],         question: "Name a job or profession" },
+  { letters: ["K", "L", "M"],    question: "Name a country" },
+  { letters: ["N", "O"],         question: "Name a city" },
+  { letters: ["P", "Q", "R"],    question: "Name a plant or tree" },
+  { letters: ["S", "T", "U"],    question: "Name a sport" },
+  { letters: ["V", "W"],         question: "Name a vegetable or fruit" },
+  { letters: ["X", "Y", "Z"],    question: "Name something you find in nature" },
+  { letters: ["A", "E", "I"],    question: "Name a musical instrument" },
+  { letters: ["B", "D"],         question: "Name something in the kitchen" },
+  { letters: ["C", "F", "G"],    question: "Name a language" },
+  { letters: ["H", "J"],         question: "Name a household item" },
+  { letters: ["L", "M", "N"],    question: "Name an ocean, sea, or river" },
+  { letters: ["O", "P"],         question: "Name a planet or space term" },
+  { letters: ["R", "S", "T"],    question: "Name a weather phenomenon" },
+  { letters: ["U", "V", "W"],    question: "Name an animal from the zoo" },
 ];
+
+// Expand questions into individual (letter, question) cards and shuffle
+function buildDeck(): Card[] {
+  const cards: Card[] = [];
+  for (const q of QUESTIONS) {
+    for (const letter of q.letters) {
+      cards.push({ letter, question: q.question });
+    }
+  }
+  // Fisher-Yates shuffle
+  for (let i = cards.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [cards[i], cards[j]] = [cards[j], cards[i]];
+  }
+  return cards;
+}
+
+const CARDS: Card[] = buildDeck();
 
 const SHADOW_CARD_COUNT = 4;
 
