@@ -84,7 +84,9 @@ function isCardArray(data: unknown): data is Card[] {
 async function loadCards(): Promise<void> {
   try {
     const response = await fetch("./cards-data.json");
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch cards-data.json: HTTP ${response.status}`);
+    }
 
     const data: unknown = await response.json();
     if (!isCardArray(data)) throw new Error("Invalid card data format");
