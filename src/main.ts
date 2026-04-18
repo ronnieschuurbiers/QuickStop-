@@ -5,6 +5,7 @@ interface Card {
 
 const CARDS_DATA_PATH = "./cards-data.json";
 const CLICK_SUPPRESSION_DELAY_MS = 500;
+const PRIMARY_MOUSE_BUTTON = 0;
 
 // ── State ─────────────────────────────────────────────────────
 let cards: Card[] = [];
@@ -134,13 +135,13 @@ function handleCardTap(): void {
 
 // ── Card tap/click handlers ───────────────────────────────────
 scene.addEventListener("pointerup", (event) => {
-  if (event.pointerType === "mouse" && event.button !== 0) return;
-  suppressClickUntil = Date.now() + CLICK_SUPPRESSION_DELAY_MS;
+  if (event.pointerType === "mouse" && event.button !== PRIMARY_MOUSE_BUTTON) return;
+  suppressClickUntil = performance.now() + CLICK_SUPPRESSION_DELAY_MS;
   handleCardTap();
 });
 
 scene.addEventListener("click", () => {
-  if (Date.now() < suppressClickUntil) return;
+  if (performance.now() < suppressClickUntil) return;
   handleCardTap();
 });
 
