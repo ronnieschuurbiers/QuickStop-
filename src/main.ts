@@ -3,6 +3,8 @@ interface Card {
   question: string;
 }
 
+const CARDS_DATA_PATH = "./cards-data.json";
+
 // ── State ─────────────────────────────────────────────────────
 let cards: Card[] = [];
 let currentIndex = 0;
@@ -83,9 +85,9 @@ function isCardArray(data: unknown): data is Card[] {
 
 async function loadCards(): Promise<void> {
   try {
-    const response = await fetch("./cards-data.json");
+    const response = await fetch(CARDS_DATA_PATH);
     if (!response.ok) {
-      throw new Error(`Failed to fetch cards-data.json: HTTP ${response.status}`);
+      throw new Error(`Failed to fetch ${CARDS_DATA_PATH}: HTTP ${response.status}`);
     }
 
     const data: unknown = await response.json();
@@ -95,7 +97,7 @@ async function loadCards(): Promise<void> {
     isReady = true;
     showCard();
   } catch (error) {
-    console.error("Failed to load cards-data.json", error);
+    console.error("Unable to load card data. Please refresh the page to try again.", error);
     pileWrapper.classList.add("hidden");
     emptyState.classList.remove("hidden");
     hintEl.classList.add("hidden");
