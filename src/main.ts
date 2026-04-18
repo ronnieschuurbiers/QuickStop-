@@ -4,6 +4,9 @@ interface Card {
 }
 
 const CARDS_DATA_PATH = "./cards-data.json";
+const CLICK_SUPPRESSION_DELAY_MS = 300;
+const PRIMARY_MOUSE_BUTTON = 0;
+const SHADOW_CARD_COUNT = 4;
 
 // ── State ─────────────────────────────────────────────────────
 let cards: Card[] = [];
@@ -11,6 +14,7 @@ let currentIndex = 0;
 let isFlipped = false;
 let isAnimating = false;
 let isReady = false;
+let suppressClickUntil = 0;
 
 // ── DOM refs ──────────────────────────────────────────────────
 const scene           = document.getElementById("card-scene")!;
@@ -25,16 +29,16 @@ const pileWrapper  = document.getElementById("pile-wrapper")!;
 const hintEl       = document.getElementById("hint")!;
 
 // ── Pile shadow cards ─────────────────────────────────────────
-function renderShadowCards(behind: number): void {
+function renderShadowCards(): void {
   // Remove old shadows
   pileWrapper.querySelectorAll(".shadow-card").forEach((n) => n.remove());
 
-  const count = Math.min(behind, 3);
+  const count = SHADOW_CARD_COUNT;
   for (let i = count; i >= 1; i--) {
     const div = document.createElement("div");
     div.className = "shadow-card";
-    div.style.transform = `translateX(${i * 5}px) translateY(${i * 5}px) rotate(${i * 2}deg)`;
-    div.style.zIndex = String(-i);
+    div.style.transform = `translateX(${i * 4}px) translateY(${i * 5}px) rotate(${i * 1.5}deg)`;
+    div.style.zIndex = String(10 - i);
     pileWrapper.insertBefore(div, scene);
   }
 }
@@ -62,7 +66,7 @@ function showCard(): void {
 
   const behind = cards.length - currentIndex - 1;
   remainingEl.textContent = String(behind);
-  renderShadowCards(behind);
+  renderShadowCards();
 
   hintEl.textContent = "Tap to flip";
   hintEl.classList.remove("hidden");
@@ -104,8 +108,7 @@ async function loadCards(): Promise<void> {
   }
 }
 
-// ── Card click ────────────────────────────────────────────────
-scene.addEventListener("click", () => {
+function handleCardTap(): void {
   if (!isReady || isAnimating) return;
 
   if (!isFlipped) {
@@ -129,6 +132,23 @@ scene.addEventListener("click", () => {
       { once: true }
     );
   }
+}
+
+// ── Card tap/click handlers ───────────────────────────────────
+scene.addEventListener("pointerup", (event) => {
+  if (event.pointerType === "mouse") {
+    if (event.button !== PRIMARY_MOUSE_BUTTON) return;
+  } else if (event.pointerType !== "touch" && event.pointerType !== "pen") {
+    return;
+  }
+
+  suppressClickUntil = performance.now() + CLICK_SUPPRESSION_DELAY_MS;
+  handleCardTap();
+});
+
+scene.addEventListener("click", () => {
+  if (performance.now() < suppressClickUntil) return;
+  handleCardTap();
 });
 
 // ── Boot ──────────────────────────────────────────────────────
