@@ -1,0 +1,13 @@
+{
+  "name": "quickstop-cards",
+  "version": "1.0.0",
+  "description": "QuickStop-style card game website",
+  "scripts": {
+    "build": "tsc && npx tailwindcss -i src/styles.css -o dist/styles.css --minify && cp src/index.html dist/index.html",
+    "dev": "npm run build"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5.3.3"
+  }
+}
