@@ -4,6 +4,7 @@ interface Card {
 }
 
 const CARDS_DATA_PATH = "./cards-data.json";
+const CLICK_SUPPRESSION_DELAY_MS = 500;
 
 // ── State ─────────────────────────────────────────────────────
 let cards: Card[] = [];
@@ -134,7 +135,7 @@ function handleCardTap(): void {
 // ── Card tap/click handlers ───────────────────────────────────
 scene.addEventListener("touchend", (event) => {
   event.preventDefault();
-  suppressClickUntil = Date.now() + 500;
+  suppressClickUntil = Date.now() + CLICK_SUPPRESSION_DELAY_MS;
   handleCardTap();
 }, { passive: false });
 
