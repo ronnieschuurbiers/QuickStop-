@@ -44,7 +44,7 @@
 
 .card-yellow-area {
   background: #f4c430;
-  clip-path: polygon(0% 0%, 100% 0%, 100% 81%, 0% 87%);
+  clip-path: polygon(0% 0%, 100% 0%, 100% 90%, 0% 93%);
 }
 
 /* Front of card – shown after flip */
