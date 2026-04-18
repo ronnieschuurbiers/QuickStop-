@@ -1,33 +1,35 @@
 interface Card {
   letter: string;
   question: string;
+  wordCount: number;
 }
 
 interface Question {
   letters: string[];
   question: string;
+  wordCount: number;
 }
 
 // ── Question data (each question maps to one card per letter) ──
 const QUESTIONS: Question[] = [
-  { letters: ["A", "B", "C"],    question: "Name an animal" },
-  { letters: ["D", "E"],         question: "Name a movie" },
-  { letters: ["F", "G", "H"],    question: "Name a food" },
-  { letters: ["I", "J"],         question: "Name a job or profession" },
-  { letters: ["K", "L", "M"],    question: "Name a country" },
-  { letters: ["N", "O"],         question: "Name a city" },
-  { letters: ["P", "Q", "R"],    question: "Name a plant or tree" },
-  { letters: ["S", "T", "U"],    question: "Name a sport" },
-  { letters: ["V", "W"],         question: "Name a vegetable or fruit" },
-  { letters: ["X", "Y", "Z"],    question: "Name something you find in nature" },
-  { letters: ["A", "E", "I"],    question: "Name a musical instrument" },
-  { letters: ["B", "D"],         question: "Name something in the kitchen" },
-  { letters: ["C", "F", "G"],    question: "Name a language" },
-  { letters: ["H", "J"],         question: "Name a household item" },
-  { letters: ["L", "M", "N"],    question: "Name an ocean, sea, or river" },
-  { letters: ["O", "P"],         question: "Name a planet or space term" },
-  { letters: ["R", "S", "T"],    question: "Name a weather phenomenon" },
-  { letters: ["U", "V", "W"],    question: "Name an animal from the zoo" },
+  { letters: ["A", "B", "C"],    question: "Name 3 animals",                wordCount: 3 },
+  { letters: ["D", "E"],         question: "Name 2 movies",                 wordCount: 2 },
+  { letters: ["F", "G", "H"],    question: "Name 3 foods",                  wordCount: 3 },
+  { letters: ["I", "J"],         question: "Name 2 jobs or professions",    wordCount: 2 },
+  { letters: ["K", "L", "M"],    question: "Name 3 countries",              wordCount: 3 },
+  { letters: ["N", "O"],         question: "Name 2 cities",                 wordCount: 2 },
+  { letters: ["P", "Q", "R"],    question: "Name 3 plants or trees",        wordCount: 3 },
+  { letters: ["S", "T", "U"],    question: "Name 3 sports",                 wordCount: 3 },
+  { letters: ["V", "W"],         question: "Name 2 vegetables or fruits",   wordCount: 2 },
+  { letters: ["X", "Y", "Z"],    question: "Name 3 things from nature",     wordCount: 3 },
+  { letters: ["A", "E", "I"],    question: "Name 3 musical instruments",    wordCount: 3 },
+  { letters: ["B", "D"],         question: "Name 2 things in the kitchen",  wordCount: 2 },
+  { letters: ["C", "F", "G"],    question: "Name 3 languages",              wordCount: 3 },
+  { letters: ["H", "J"],         question: "Name 2 household items",        wordCount: 2 },
+  { letters: ["L", "M", "N"],    question: "Name 3 bodies of water",        wordCount: 3 },
+  { letters: ["O", "P"],         question: "Name 2 planets or space terms", wordCount: 2 },
+  { letters: ["R", "S", "T"],    question: "Name 3 weather phenomena",      wordCount: 3 },
+  { letters: ["U", "V", "W"],    question: "Name 3 zoo animals",            wordCount: 3 },
 ];
 
 // Expand questions into individual (letter, question) cards and shuffle
@@ -35,7 +37,7 @@ function buildDeck(): Card[] {
   const cards: Card[] = [];
   for (const q of QUESTIONS) {
     for (const letter of q.letters) {
-      cards.push({ letter, question: q.question });
+      cards.push({ letter, question: q.question, wordCount: q.wordCount });
     }
   }
   // Fisher-Yates shuffle
@@ -66,6 +68,7 @@ const remainingEl      = document.getElementById("remaining")!;
 const emptyState       = document.getElementById("empty-state")!;
 const pileWrapper      = document.getElementById("pile-wrapper")!;
 const hintEl           = document.getElementById("hint")!;
+const counterEl        = document.getElementById("counter")!;
 
 // ── Pile shadow cards ─────────────────────────────────────────
 function renderShadowCards(): void {
@@ -87,6 +90,7 @@ function showCard(): void {
     pileWrapper.classList.add("hidden");
     emptyState.classList.remove("hidden");
     hintEl.classList.add("hidden");
+    counterEl.classList.add("hidden");
     return;
   }
 
@@ -110,6 +114,9 @@ function showCard(): void {
   remainingEl.textContent = String(behind);
   renderShadowCards();
 
+  counterEl.classList.add("hidden");
+  counterEl.textContent = "";
+
   hintEl.textContent = "Tap to flip";
   hintEl.classList.remove("hidden");
 }
@@ -121,22 +128,43 @@ function handleCardTap(): void {
     // Flip card to show prompt
     isFlipped = true;
     scene.classList.add("flipped");
-    hintEl.textContent = "Tap to send away";
+    hintEl.textContent = "Tap to count";
   } else {
-    // Fly the entire scene away (preserves the flipped state visually)
+    // Start word counter, then fly the card away
     isAnimating = true;
     hintEl.textContent = "";
-    scene.classList.add("fly-away");
 
-    scene.addEventListener(
-      "animationend",
-      () => {
-        currentIndex++;
-        isAnimating = false;
-        showCard();
-      },
-      { once: true }
-    );
+    const wordCount = CARDS[currentIndex].wordCount;
+    counterEl.classList.remove("hidden");
+
+    let count = 0;
+    function tick(): void {
+      count++;
+      // Replay the pop animation for each new number
+      counterEl.style.animation = "none";
+      void counterEl.offsetHeight;
+      counterEl.style.animation = "";
+      counterEl.textContent = String(count);
+
+      if (count < wordCount) {
+        setTimeout(tick, 700);
+      } else {
+        // All words counted – fly the card away
+        setTimeout(() => {
+          scene.classList.add("fly-away");
+          scene.addEventListener(
+            "animationend",
+            () => {
+              currentIndex++;
+              isAnimating = false;
+              showCard();
+            },
+            { once: true }
+          );
+        }, 500);
+      }
+    }
+    setTimeout(tick, 300);
   }
 }
 

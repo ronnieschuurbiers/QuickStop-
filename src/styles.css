@@ -59,6 +59,19 @@
   pointer-events: none;
 }
 
+/* ── Word counter ─────────────────────────────────────────── */
+@keyframes counter-pop {
+  0%   { transform: scale(0.4); opacity: 0; }
+  60%  { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(1);   opacity: 1; }
+}
+
+.counter-number {
+  font-size: 6rem;
+  line-height: 1;
+  animation: counter-pop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
 /* ── Shadow cards (pile effect) ─────────────────────────────── */
 .shadow-card {
   border-radius: 1.25rem;
