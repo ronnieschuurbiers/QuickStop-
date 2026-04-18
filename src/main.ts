@@ -4,7 +4,6 @@ interface Card {
 }
 
 const CARDS_DATA_PATH = "./cards-data.json";
-const CLICK_SUPPRESSION_DELAY_MS = 300;
 const PRIMARY_MOUSE_BUTTON = 0;
 const SHADOW_CARD_COUNT = 4;
 
@@ -14,7 +13,6 @@ let currentIndex = 0;
 let isFlipped = false;
 let isAnimating = false;
 let isReady = false;
-let suppressClickUntil = 0;
 
 // ── DOM refs ──────────────────────────────────────────────────
 const scene           = document.getElementById("card-scene")!;
@@ -142,12 +140,12 @@ scene.addEventListener("pointerup", (event) => {
     return;
   }
 
-  suppressClickUntil = performance.now() + CLICK_SUPPRESSION_DELAY_MS;
+  event.preventDefault();
   handleCardTap();
 });
 
-scene.addEventListener("click", () => {
-  if (performance.now() < suppressClickUntil) return;
+scene.addEventListener("click", (event) => {
+  if (event.detail !== 0) return;
   handleCardTap();
 });
 
