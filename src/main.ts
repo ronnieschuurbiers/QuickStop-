@@ -146,15 +146,19 @@ scene.addEventListener("pointerdown", (event) => {
 
 scene.addEventListener("pointerup", (event) => {
   if (activePointerId === null || event.pointerId !== activePointerId) return;
-  activePointerId = null;
 
   if (event.pointerType === "mouse") {
-    if (event.button !== PRIMARY_MOUSE_BUTTON) return;
+    if (event.button !== PRIMARY_MOUSE_BUTTON) {
+      activePointerId = null;
+      return;
+    }
   } else if (event.pointerType !== "touch" && event.pointerType !== "pen") {
+    activePointerId = null;
     return;
   }
 
   handleCardTap();
+  activePointerId = null;
 });
 
 scene.addEventListener("pointercancel", () => {
@@ -162,7 +166,8 @@ scene.addEventListener("pointercancel", () => {
 });
 
 scene.addEventListener("keydown", (event) => {
-  if (event.key !== "Enter" && event.key !== " ") return;
+  if (event.key !== "Enter" && event.code !== "Space") return;
+  if (event.repeat) return;
   event.preventDefault();
   handleCardTap();
 });
