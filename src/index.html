@@ -12,7 +12,7 @@
     body { font-family: 'Nunito', sans-serif; }
   </style>
 </head>
-<body class="h-screen bg-white flex flex-col items-center justify-between px-4 pt-4 pb-3 select-none overflow-hidden">
+<body class="h-screen bg-white flex flex-col items-center gap-6 px-4 pt-6 pb-6 select-none overflow-hidden">
 
   <!-- Header -->
   <header class="w-full text-center py-2">
@@ -43,8 +43,8 @@
 
           <!-- Front face: prompt -->
           <div class="card-face card-front-face border-4 border-white/35">
-            <p class="text-xl font-black text-white text-center leading-snug" id="card-question"></p>
-            <!-- Word counter – shown while counting after the card is tapped -->
+            <p class="text-2xl font-black text-white text-center leading-snug" id="card-question"></p>
+            <!-- Word counter – shown on every front-face view -->
             <div id="counter" class="hidden counter-number text-white font-black mt-2"></div>
           </div>
 
