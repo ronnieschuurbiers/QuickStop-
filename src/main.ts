@@ -1,60 +1,12 @@
-const PROMPTS: string[] = [
-  "Name an animal",
-  "Name a country",
-  "Name a city",
-  "Name a food",
-  "Name a sport",
-  "Name a movie",
-  "Name a TV show",
-  "Name a famous person",
-  "Name a fruit",
-  "Name a vegetable",
-  "Name a car brand",
-  "Name a musical instrument",
-  "Name a flower",
-  "Name a body part",
-  "Name a clothing item",
-  "Name a school subject",
-  "Name an occupation",
-  "Name a hobby",
-  "Name a brand",
-  "Name a superhero",
-  "Name a board game",
-  "Name a planet",
-  "Name a language",
-  "Name a drink",
-  "Name a book",
-  "Name a dog breed",
-  "Name a cartoon character",
-  "Name a song",
-  "Name a holiday destination",
-  "Name a type of dance",
-];
-
-const LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+import cardsData from "./cards-data.json";
 
 interface Card {
   letter: string;
-  prompt: string;
-}
-
-function randomLetter(): string {
-  return LETTERS[Math.floor(Math.random() * LETTERS.length)];
-}
-
-function randomPrompt(): string {
-  return PROMPTS[Math.floor(Math.random() * PROMPTS.length)];
-}
-
-function generateCards(count: number): Card[] {
-  return Array.from({ length: count }, () => ({
-    letter: randomLetter(),
-    prompt: randomPrompt(),
-  }));
+  question: string;
 }
 
 // ── State ─────────────────────────────────────────────────────
-const cards: Card[] = generateCards(26);
+const cards: Card[] = cardsData;
 let currentIndex = 0;
 let isFlipped = false;
 let isAnimating = false;
@@ -63,8 +15,9 @@ let isAnimating = false;
 const scene           = document.getElementById("card-scene")!;
 const cardEl          = document.getElementById("card")!;
 const letterEl        = document.getElementById("card-letter")!;
-const letterFrontEl   = document.getElementById("card-letter-front")!;
-const promptEl        = document.getElementById("card-prompt")!;
+const letterTopLeftEl = document.getElementById("card-letter-top-left")!;
+const letterTopRightEl = document.getElementById("card-letter-top-right")!;
+const questionEl      = document.getElementById("card-question")!;
 const remainingEl  = document.getElementById("remaining")!;
 const emptyState   = document.getElementById("empty-state")!;
 const pileWrapper  = document.getElementById("pile-wrapper")!;
@@ -96,8 +49,9 @@ function showCard(): void {
 
   const card = cards[currentIndex];
   letterEl.textContent = card.letter;
-  letterFrontEl.textContent = card.letter;
-  promptEl.textContent = card.prompt;
+  letterTopLeftEl.textContent = card.letter;
+  letterTopRightEl.textContent = card.letter;
+  questionEl.textContent = card.question;
 
   // Reset state
   isFlipped = false;
