@@ -12,26 +12,26 @@
     body { font-family: 'Nunito', sans-serif; }
   </style>
 </head>
-<body class="h-screen bg-white flex flex-col items-center justify-center gap-y-1 px-4 pt-4 pb-3 select-none overflow-hidden">
+<body class="h-screen bg-white flex flex-col items-center justify-between px-4 pt-4 pb-3 select-none overflow-hidden">
 
   <!-- Header -->
-  <header class="w-full text-center">
-    <h1 class="text-3xl font-black text-[#0b1f5e] tracking-wide drop-shadow-lg">
+  <header class="w-full text-center py-2">
+    <h1 class="text-4xl font-black text-[#0b1f5e] tracking-wide drop-shadow-lg">
       Slow<span class="text-yellow-400">Go!</span>
     </h1>
-    <p class="text-blue-700 text-sm mt-1">Name something that starts with the letter</p>
+    <p class="text-blue-700 text-base mt-1">Name something that starts with the letter</p>
   </header>
 
   <!-- Card area -->
-  <main class="flex flex-col items-center w-full">
+  <main class="flex flex-1 flex-col items-center justify-center w-full">
 
     <!-- Pile wrapper – shadow cards are inserted here by JS -->
     <div id="pile-wrapper" class="relative flex items-center justify-center"
-         style="width: 190px; height: 260px;">
+         style="width: min(260px, 72vw); height: min(360px, 56vh);">
 
       <!-- The actual card scene (3-D flip container) -->
       <div id="card-scene" class="card-scene absolute inset-0 cursor-pointer drop-shadow-2xl" tabindex="0"
-           style="width: 190px; height: 260px;">
+           style="width: min(260px, 72vw); height: min(360px, 56vh);">
         <div id="card" class="card-inner w-full h-full">
 
           <!-- Back face: letter -->
@@ -43,7 +43,7 @@
 
           <!-- Front face: prompt -->
           <div class="card-face card-front-face border-4 border-white/35">
-            <p class="text-3xl font-black text-white text-center leading-snug" id="card-question"></p>
+            <p class="text-xl font-black text-white text-center leading-snug" id="card-question"></p>
             <!-- Word counter – shown while counting after the card is tapped -->
             <div id="counter" class="hidden counter-number text-white font-black mt-2"></div>
           </div>
@@ -69,8 +69,8 @@
   </main>
 
   <!-- Footer: remaining cards -->
-  <footer class="w-full text-center pb-2">
-    <p class="text-blue-700 text-sm">
+  <footer class="w-full text-center py-2">
+    <p class="text-blue-700 text-base">
       <span id="remaining">0</span> cards remaining
     </p>
   </footer>
