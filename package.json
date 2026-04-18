@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "QuickStop-style card game website",
   "scripts": {
-    "build": "tsc && npx tailwindcss -i src/styles.css -o dist/styles.css --minify && cp src/index.html dist/index.html && cp src/cards-data.json dist/cards-data.json",
+    "build": "tsc && npx tailwindcss -i src/styles.css -o dist/styles.css --minify && cp src/index.html dist/index.html",
     "dev": "npm run build"
   },
   "devDependencies": {
