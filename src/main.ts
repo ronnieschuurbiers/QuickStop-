@@ -42,6 +42,7 @@ let isAnimating = false;
 
 // ── DOM refs ──────────────────────────────────────────────────
 const scene            = document.getElementById("card-scene")!;
+const cardInner        = document.getElementById("card")!;
 const letterEl         = document.getElementById("card-letter")!;
 const letterTopLeftEl  = document.getElementById("card-letter-top-left")!;
 const letterTopRightEl = document.getElementById("card-letter-top-right")!;
@@ -80,9 +81,15 @@ function showCard(): void {
   letterTopRightEl.textContent = card.letter;
   questionEl.textContent = card.question;
 
-  // Reset card state
+  // Reset card state – disable the flip transition so the next card
+  // appears instantly on the front face without an unwanted animation.
   isFlipped = false;
+  cardInner.style.transition = "none";
   scene.classList.remove("flipped", "fly-away");
+  // Force a reflow so the browser applies the instant reset before
+  // we re-enable the transition for the next user-triggered flip.
+  void cardInner.offsetHeight;
+  cardInner.style.transition = "";
 
   const behind = CARDS.length - currentIndex - 1;
   remainingEl.textContent = String(behind);
