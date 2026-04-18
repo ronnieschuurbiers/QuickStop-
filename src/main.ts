@@ -136,13 +136,13 @@ function handleCardTap(): void {
     wordCounter++;
     counterEl.classList.remove("hidden");
 
+    const wordCount = CARDS[currentIndex].wordCount;
+
     // Replay the pop animation for each new number
     counterEl.style.animation = "none";
     void counterEl.offsetHeight;
     counterEl.style.animation = "";
-    counterEl.textContent = String(wordCounter);
-
-    const wordCount = CARDS[currentIndex].wordCount;
+    counterEl.textContent = `${wordCounter}/${wordCount}`;
     if (wordCounter >= wordCount) {
       // All words counted – fly the card away
       isAnimating = true;
