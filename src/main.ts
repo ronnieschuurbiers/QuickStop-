@@ -115,9 +115,9 @@ function showCard(): void {
   remainingEl.textContent = String(behind);
   renderShadowCards();
 
-  counterEl.classList.add("hidden");
-  counterEl.textContent = "";
   wordCounter = 0;
+  const wordCount = CARDS[currentIndex].wordCount;
+  counterEl.textContent = `0/${wordCount}`;
 
   hintEl.textContent = "Tap to flip";
   hintEl.classList.remove("hidden");
@@ -131,15 +131,9 @@ function handleCardTap(): void {
     isFlipped = true;
     scene.classList.add("flipped");
     hintEl.textContent = "Tap to count";
-
-    // Show the word counter immediately (0/N) so it's always visible on the front face
-    const wordCount = CARDS[currentIndex].wordCount;
-    counterEl.textContent = `0/${wordCount}`;
-    counterEl.classList.remove("hidden");
   } else {
     // Each tap increments the counter by one
     wordCounter++;
-    counterEl.classList.remove("hidden");
 
     const wordCount = CARDS[currentIndex].wordCount;
 
