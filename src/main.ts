@@ -1,15 +1,14 @@
-import cardsData from "./cards-data.json";
-
 interface Card {
   letter: string;
   question: string;
 }
 
 // ── State ─────────────────────────────────────────────────────
-const cards: Card[] = cardsData;
+let cards: Card[] = [];
 let currentIndex = 0;
 let isFlipped = false;
 let isAnimating = false;
+let isReady = false;
 
 // ── DOM refs ──────────────────────────────────────────────────
 const scene           = document.getElementById("card-scene")!;
@@ -67,9 +66,43 @@ function showCard(): void {
   hintEl.classList.remove("hidden");
 }
 
+function isCardArray(data: unknown): data is Card[] {
+  return (
+    Array.isArray(data) &&
+    data.every(
+      (card) =>
+        typeof card === "object" &&
+        card !== null &&
+        "letter" in card &&
+        "question" in card &&
+        typeof (card as Card).letter === "string" &&
+        typeof (card as Card).question === "string"
+    )
+  );
+}
+
+async function loadCards(): Promise<void> {
+  try {
+    const response = await fetch("./cards-data.json");
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+    const data: unknown = await response.json();
+    if (!isCardArray(data)) throw new Error("Invalid card data format");
+
+    cards = data;
+    isReady = true;
+    showCard();
+  } catch (error) {
+    console.error("Failed to load cards-data.json", error);
+    pileWrapper.classList.add("hidden");
+    emptyState.classList.remove("hidden");
+    hintEl.classList.add("hidden");
+  }
+}
+
 // ── Card click ────────────────────────────────────────────────
 scene.addEventListener("click", () => {
-  if (isAnimating) return;
+  if (!isReady || isAnimating) return;
 
   if (!isFlipped) {
     // Flip card to show prompt
@@ -95,4 +128,4 @@ scene.addEventListener("click", () => {
 });
 
 // ── Boot ──────────────────────────────────────────────────────
-showCard();
+void loadCards();
