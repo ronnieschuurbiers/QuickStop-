@@ -140,7 +140,6 @@ scene.addEventListener("pointerup", (event) => {
     return;
   }
 
-  event.preventDefault();
   handleCardTap();
 });
 
