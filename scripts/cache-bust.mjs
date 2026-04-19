@@ -25,9 +25,22 @@ const cssHash = shortHash(resolve(distDir, "styles.css"));
 const htmlPath = resolve(distDir, "index.html");
 let html = readFileSync(htmlPath, "utf8");
 
-// Replace asset references (handles both plain and already-versioned URLs)
-html = html.replace(/src="main\.js(?:\?v=[^"]*)?"/,   `src="main.js?v=${jsHash}"`);
-html = html.replace(/href="styles\.css(?:\?v=[^"]*)?"/,`href="styles.css?v=${cssHash}"`);
+// Replace asset references (handles both plain and already-versioned URLs,
+// and both double- and single-quoted attribute values).
+function bustAsset(source, filename, hash) {
+  const escaped = filename.replace(".", "\\.");
+  const updated = source.replace(
+    new RegExp(`((?:src|href)=)(["'])${escaped}(?:\\?v=[^"']*)?\\2`),
+    (_, attr, q) => `${attr}${q}${filename}?v=${hash}${q}`
+  );
+  if (updated === source) {
+    console.warn(`Warning: no reference to "${filename}" found in index.html`);
+  }
+  return updated;
+}
+
+html = bustAsset(html, "main.js",    jsHash);
+html = bustAsset(html, "styles.css", cssHash);
 
 writeFileSync(htmlPath, html, "utf8");
 
