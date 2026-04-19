@@ -97,9 +97,9 @@ function showCard(): void {
   }
 
   const card = CARDS[currentIndex];
-  letterEl.textContent = card.letter;
-  letterTopLeftEl.textContent = card.letter;
-  letterTopRightEl.textContent = card.letter;
+  letterEl.textContent = card.letter.toLowerCase();
+  letterTopLeftEl.textContent = card.letter.toLowerCase();
+  letterTopRightEl.textContent = card.letter.toLowerCase();
   questionEl.textContent = card.question;
   questionFlippedEl.textContent = card.question;
 
