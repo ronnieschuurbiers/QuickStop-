@@ -61,7 +61,7 @@
 
 .card-blue-area {
   background: #1e3a8a;
-  clip-path: polygon(0% 0%, 100% 0%, 100% 47%, 0% 50%);
+  clip-path: polygon(0% 50%, 100% 53%, 100% 100%, 0% 100%);
 }
 
 /* ── Card enter (fade-in) ────────────────────────────────────── */
