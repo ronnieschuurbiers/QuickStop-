@@ -44,7 +44,7 @@
 
 .card-yellow-area {
   background: #f4c430;
-  clip-path: polygon(0% 0%, 100% 0%, 100% 47%, 0% 50%);
+  clip-path: polygon(0% 0%, 100% 0%, 100% 73%, 0% 76%);
 }
 
 /* Back of card – shown after flip */
@@ -59,7 +59,7 @@
 
 .card-blue-area {
   background: #1d4ed8;
-  clip-path: polygon(0% 0%, 100% 0%, 100% 73%, 0% 76%);
+  clip-path: polygon(0% 0%, 100% 0%, 100% 47%, 0% 50%);
 }
 
 /* ── Card enter (fade-in) ────────────────────────────────────── */
