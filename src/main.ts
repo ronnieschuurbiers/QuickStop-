@@ -77,7 +77,7 @@ const letterTopLeftEl  = document.getElementById("card-letter-top-left")!;
 const letterTopRightEl = document.getElementById("card-letter-top-right")!;
 const questionEl       = document.getElementById("card-question")!;
 const questionFlippedEl = document.getElementById("card-question-flipped")!;
-const remainingEl      = document.getElementById("remaining")!;
+const remainingInfoEl  = document.getElementById("remaining-info")!;
 const emptyState       = document.getElementById("empty-state")!;
 const pileWrapper      = document.getElementById("pile-wrapper")!;
 const hintEl           = document.getElementById("hint")!;
@@ -104,6 +104,7 @@ function showCard(): void {
     emptyState.classList.remove("hidden");
     hintEl.classList.add("hidden");
     counterEl.classList.add("hidden");
+    remainingInfoEl.classList.add("hidden");
     return;
   }
 
@@ -126,7 +127,12 @@ function showCard(): void {
   scene.classList.add("card-enter");
 
   const behind = CARDS.length - currentIndex - 1;
-  remainingEl.textContent = String(behind);
+  remainingInfoEl.classList.remove("hidden");
+  if (behind === 0) {
+    remainingInfoEl.textContent = "laatste kaart";
+  } else {
+    remainingInfoEl.innerHTML = `<span id="remaining">${behind}</span> kaarten over`;
+  }
   renderShadowCards();
 
   wordCounter = 0;
