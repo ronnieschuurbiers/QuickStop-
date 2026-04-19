@@ -34,12 +34,12 @@
 
 /* Back of card – shown first */
 .card-back-face {
-  background: #ffffff;
+  background: linear-gradient(135deg, #1d4ed8 0%, #1e3a8a 100%);
   color: #fff;
   flex-direction: column;
   overflow: hidden;
   border: 8px solid #ffffff;
-  box-shadow: 0 0 0 1px #000000;
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.35);
 }
 
 .card-yellow-area {

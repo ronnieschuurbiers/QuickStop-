@@ -118,7 +118,7 @@ function showCard(): void {
 
   wordCounter = 0;
   const wordCount = CARDS[currentIndex].wordCount;
-  counterEl.textContent = `0/${wordCount}`;
+  counterEl.textContent = `0/${wordCount} words`;
 
   hintEl.textContent = "Tap to flip";
   hintEl.classList.remove("hidden");
@@ -142,7 +142,7 @@ function handleCardTap(): void {
     counterEl.style.animation = "none";
     void counterEl.offsetHeight;
     counterEl.style.animation = "";
-    counterEl.textContent = `${wordCounter}/${wordCount}`;
+    counterEl.textContent = `${wordCounter}/${wordCount} words`;
     if (wordCounter >= wordCount) {
       // All words counted – fly the card away
       isAnimating = true;
