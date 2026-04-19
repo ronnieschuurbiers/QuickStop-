@@ -177,8 +177,8 @@ showCard();
 const darkToggleBtn = document.getElementById("dark-toggle")!;
 const appBody = document.getElementById("app-body")!;
 
-function applyDarkMode(dark: boolean): void {
-  if (dark) {
+function applyDarkMode(enabled: boolean): void {
+  if (enabled) {
     appBody.classList.add("dark-mode");
     darkToggleBtn.textContent = "☀️";
   } else {
