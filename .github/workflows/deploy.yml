@@ -31,11 +31,7 @@ jobs:
         run: npm ci
 
       - name: Build
-        run: |
-          mkdir -p dist
-          npx tsc
-          npx tailwindcss -i src/styles.css -o dist/styles.css --minify
-          cp src/index.html dist/index.html
+        run: npm run build
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

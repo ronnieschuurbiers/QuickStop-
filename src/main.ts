@@ -138,7 +138,8 @@ function showCard(): void {
   wordCounter = 0;
   const wordCount = CARDS[currentIndex].wordCount;
   counterEl.textContent = `0/${wordCount} woorden`;
-  counterEl.classList.add("hidden");
+  counterEl.classList.remove("hidden");
+  counterEl.classList.add("invisible");
 
   hintEl.textContent = "Druk om de kaart om te draaien";
   hintEl.classList.remove("hidden");
@@ -151,7 +152,7 @@ function handleCardTap(): void {
     // Flip card to show prompt
     isFlipped = true;
     scene.classList.add("flipped");
-    counterEl.classList.remove("hidden");
+    counterEl.classList.remove("invisible");
     hintEl.textContent = "Druk om een woord te tellen";
   } else {
     // Each tap increments the counter by one
