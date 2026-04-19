@@ -34,7 +34,7 @@
 
 /* Back of card – shown first */
 .card-back-face {
-  background: #ffffff;
+  background: #1d4ed8;
   color: #fff;
   flex-direction: column;
   overflow: hidden;
@@ -43,8 +43,8 @@
 }
 
 .card-yellow-area {
-  background: #f4c430;
-  clip-path: polygon(0% 0%, 100% 0%, 100% 73%, 0% 76%);
+  background: #ffffff;
+  clip-path: polygon(0% 0%, 100% 0%, 100% 47%, 0% 50%);
 }
 
 /* Front of card – shown after flip */
