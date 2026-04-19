@@ -172,3 +172,26 @@ scene.addEventListener("click", () => {
 
 // ── Boot ──────────────────────────────────────────────────────
 showCard();
+
+// ── Dark mode toggle ──────────────────────────────────────────
+const darkToggleBtn = document.getElementById("dark-toggle")!;
+const appBody = document.getElementById("app-body")!;
+
+function applyDarkMode(dark: boolean): void {
+  if (dark) {
+    appBody.classList.add("dark-mode");
+    darkToggleBtn.textContent = "☀️";
+  } else {
+    appBody.classList.remove("dark-mode");
+    darkToggleBtn.textContent = "🌙";
+  }
+}
+
+const savedDark = localStorage.getItem("darkMode") === "true";
+applyDarkMode(savedDark);
+
+darkToggleBtn.addEventListener("click", () => {
+  const isDark = appBody.classList.contains("dark-mode");
+  applyDarkMode(!isDark);
+  localStorage.setItem("darkMode", String(!isDark));
+});
