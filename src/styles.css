@@ -38,7 +38,7 @@
   color: #fff;
   flex-direction: column;
   overflow: hidden;
-  border: 8px solid #ffffff;
+  border: 16px solid #ffffff;
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.35);
 }
 
@@ -53,8 +53,10 @@
   color: #fff;
   transform: rotateY(180deg);
   flex-direction: column;
+  justify-content: space-between;
   padding: 1.5rem;
   overflow: hidden;
+  border: 16px solid rgba(255, 255, 255, 0.35);
 }
 
 .card-blue-area {
@@ -102,7 +104,7 @@
   background: #ffffff;
   position: absolute;
   inset: 0;
-  border: 8px solid #ffffff;
+  border: 16px solid #ffffff;
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.35);
   opacity: 0.95;
 }
