@@ -4,40 +4,44 @@ interface Card {
   wordCount: number;
 }
 
-interface Question {
-  letters: string[];
-  question: string;
+interface LetterEntry {
+  letter: string;
   wordCount: number;
+}
+
+interface Question {
+  letters: LetterEntry[];
+  question: string;
 }
 
 // ── Question data (each question maps to one card per letter) ──
 const QUESTIONS: Question[] = [
-  { letters: ["A", "B", "C"],    question: "Name 3 animals",                wordCount: 3 },
-  { letters: ["D", "E"],         question: "Name 2 movies",                 wordCount: 2 },
-  { letters: ["F", "G", "H"],    question: "Name 3 foods",                  wordCount: 3 },
-  { letters: ["I", "J"],         question: "Name 2 jobs or professions",    wordCount: 2 },
-  { letters: ["K", "L", "M"],    question: "Name 3 countries",              wordCount: 3 },
-  { letters: ["N", "O"],         question: "Name 2 cities",                 wordCount: 2 },
-  { letters: ["P", "Q", "R"],    question: "Name 3 plants or trees",        wordCount: 3 },
-  { letters: ["S", "T", "U"],    question: "Name 3 sports",                 wordCount: 3 },
-  { letters: ["V", "W"],         question: "Name 2 vegetables or fruits",   wordCount: 2 },
-  { letters: ["X", "Y", "Z"],    question: "Name 3 things from nature",     wordCount: 3 },
-  { letters: ["A", "E", "I"],    question: "Name 3 musical instruments",    wordCount: 3 },
-  { letters: ["B", "D"],         question: "Name 2 things in the kitchen",  wordCount: 2 },
-  { letters: ["C", "F", "G"],    question: "Name 3 languages",              wordCount: 3 },
-  { letters: ["H", "J"],         question: "Name 2 household items",        wordCount: 2 },
-  { letters: ["L", "M", "N"],    question: "Name 3 bodies of water",        wordCount: 3 },
-  { letters: ["O", "P"],         question: "Name 2 planets or space terms", wordCount: 2 },
-  { letters: ["R", "S", "T"],    question: "Name 3 weather phenomena",      wordCount: 3 },
-  { letters: ["U", "V", "W"],    question: "Name 3 zoo animals",            wordCount: 3 },
+  { letters: [{ letter: "A", wordCount: 3 }, { letter: "B", wordCount: 2 }, { letter: "C", wordCount: 4 }],    question: "Name animals" },
+  { letters: [{ letter: "D", wordCount: 2 }, { letter: "E", wordCount: 3 }],                                   question: "Name movies" },
+  { letters: [{ letter: "F", wordCount: 3 }, { letter: "G", wordCount: 1 }, { letter: "H", wordCount: 2 }],    question: "Name foods" },
+  { letters: [{ letter: "I", wordCount: 2 }, { letter: "J", wordCount: 4 }],                                   question: "Name jobs or professions" },
+  { letters: [{ letter: "K", wordCount: 3 }, { letter: "L", wordCount: 2 }, { letter: "M", wordCount: 3 }],    question: "Name countries" },
+  { letters: [{ letter: "N", wordCount: 2 }, { letter: "O", wordCount: 3 }],                                   question: "Name cities" },
+  { letters: [{ letter: "P", wordCount: 3 }, { letter: "Q", wordCount: 1 }, { letter: "R", wordCount: 2 }],    question: "Name plants or trees" },
+  { letters: [{ letter: "S", wordCount: 4 }, { letter: "T", wordCount: 2 }, { letter: "U", wordCount: 3 }],    question: "Name sports" },
+  { letters: [{ letter: "V", wordCount: 2 }, { letter: "W", wordCount: 3 }],                                   question: "Name vegetables or fruits" },
+  { letters: [{ letter: "X", wordCount: 1 }, { letter: "Y", wordCount: 3 }, { letter: "Z", wordCount: 2 }],    question: "Name things from nature" },
+  { letters: [{ letter: "A", wordCount: 3 }, { letter: "E", wordCount: 2 }, { letter: "I", wordCount: 4 }],    question: "Name musical instruments" },
+  { letters: [{ letter: "B", wordCount: 2 }, { letter: "D", wordCount: 3 }],                                   question: "Name things in the kitchen" },
+  { letters: [{ letter: "C", wordCount: 3 }, { letter: "F", wordCount: 1 }, { letter: "G", wordCount: 2 }],    question: "Name languages" },
+  { letters: [{ letter: "H", wordCount: 2 }, { letter: "J", wordCount: 4 }],                                   question: "Name household items" },
+  { letters: [{ letter: "L", wordCount: 3 }, { letter: "M", wordCount: 2 }, { letter: "N", wordCount: 3 }],    question: "Name bodies of water" },
+  { letters: [{ letter: "O", wordCount: 2 }, { letter: "P", wordCount: 3 }],                                   question: "Name planets or space terms" },
+  { letters: [{ letter: "R", wordCount: 3 }, { letter: "S", wordCount: 4 }, { letter: "T", wordCount: 2 }],    question: "Name weather phenomena" },
+  { letters: [{ letter: "U", wordCount: 3 }, { letter: "V", wordCount: 1 }, { letter: "W", wordCount: 2 }],    question: "Name zoo animals" },
 ];
 
 // Expand questions into individual (letter, question) cards and shuffle
 function buildDeck(): Card[] {
   const cards: Card[] = [];
   for (const q of QUESTIONS) {
-    for (const letter of q.letters) {
-      cards.push({ letter, question: q.question, wordCount: q.wordCount });
+    for (const entry of q.letters) {
+      cards.push({ letter: entry.letter, question: q.question, wordCount: entry.wordCount });
     }
   }
   // Fisher-Yates shuffle
