@@ -122,7 +122,7 @@ function showCard(): void {
   const wordCount = CARDS[currentIndex].wordCount;
   counterEl.textContent = `0/${wordCount} woorden`;
 
-  hintEl.textContent = "Draai de kaart om door erop te drukken";
+  hintEl.textContent = "Druk om de kaart om te draaien";
   hintEl.classList.remove("hidden");
 }
 
@@ -133,7 +133,7 @@ function handleCardTap(): void {
     // Flip card to show prompt
     isFlipped = true;
     scene.classList.add("flipped");
-    hintEl.textContent = "Tel het aantal woorden door op de kaart te drukken";
+    hintEl.textContent = "Druk om een woord te tellen";
   } else {
     // Each tap increments the counter by one
     wordCounter++;
@@ -148,7 +148,7 @@ function handleCardTap(): void {
     if (wordCounter >= wordCount) {
       // All words counted – fly the card away
       isAnimating = true;
-      hintEl.textContent = "Draai de kaart om door erop te drukken";
+      hintEl.textContent = "Druk om de kaart om te draaien";
       setTimeout(() => {
         scene.classList.add("fly-away");
         scene.addEventListener(
