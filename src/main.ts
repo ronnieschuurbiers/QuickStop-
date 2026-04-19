@@ -128,7 +128,6 @@ function showCard(): void {
 
   const behind = CARDS.length - currentIndex - 1;
   remainingInfoEl.classList.remove("hidden");
-  remainingInfoEl.classList.add("invisible");
   if (behind === 0) {
     remainingInfoEl.textContent = "laatste kaart";
   } else {
@@ -152,7 +151,6 @@ function handleCardTap(): void {
     // Flip card to show prompt
     isFlipped = true;
     scene.classList.add("flipped");
-    remainingInfoEl.classList.remove("invisible");
     counterEl.classList.remove("hidden");
     hintEl.textContent = "Druk om een woord te tellen";
   } else {
