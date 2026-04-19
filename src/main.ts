@@ -65,6 +65,7 @@ const letterEl         = document.getElementById("card-letter")!;
 const letterTopLeftEl  = document.getElementById("card-letter-top-left")!;
 const letterTopRightEl = document.getElementById("card-letter-top-right")!;
 const questionEl       = document.getElementById("card-question")!;
+const questionFlippedEl = document.getElementById("card-question-flipped")!;
 const remainingEl      = document.getElementById("remaining")!;
 const emptyState       = document.getElementById("empty-state")!;
 const pileWrapper      = document.getElementById("pile-wrapper")!;
@@ -100,6 +101,7 @@ function showCard(): void {
   letterTopLeftEl.textContent = card.letter;
   letterTopRightEl.textContent = card.letter;
   questionEl.textContent = card.question;
+  questionFlippedEl.textContent = card.question;
 
   // Reset card state – disable the flip transition so the next card
   // appears instantly on the front face without an unwanted animation.
