@@ -26,7 +26,7 @@ const QUESTIONS: Question[] = [
   { letters: [{ letter: "S", wordCount: 2 }],                                                                   question: "Iets kouds" },
   { letters: [{ letter: "P", wordCount: 2 }, { letter: "M", wordCount: 2 }],                                   question: "Iets in de ruimte" },
   { letters: [{ letter: "T", wordCount: 3 }, { letter: "J", wordCount: 3 }, { letter: "C", wordCount: 2 }, { letter: "R", wordCount: 3 }], question: "Een voornaam" },
-  { letters: [{ letter: "B", wordCount: 2 }],                                                                   question: "Een soort" },
+  { letters: [{ letter: "B", wordCount: 2 }],                                                                   question: "Een sport" },
   { letters: [{ letter: "H", wordCount: 2 }, { letter: "V", wordCount: 2 }],                                   question: "Een sport" },
   { letters: [{ letter: "K", wordCount: 2 }],                                                                   question: "Een hobby" },
   { letters: [{ letter: "T", wordCount: 2 }],                                                                   question: "Iets in de badkamer" },
