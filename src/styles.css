@@ -32,9 +32,9 @@
   justify-content: center;
 }
 
-/* Back of card – shown first */
-.card-back-face {
-  background: #1d4ed8;
+/* Front of card – shown first */
+.card-front-face {
+  background: #ffffff;
   color: #fff;
   flex-direction: column;
   overflow: hidden;
@@ -43,12 +43,12 @@
 }
 
 .card-yellow-area {
-  background: #ffffff;
+  background: #f4c430;
   clip-path: polygon(0% 0%, 100% 0%, 100% 47%, 0% 50%);
 }
 
-/* Front of card – shown after flip */
-.card-front-face {
+/* Back of card – shown after flip */
+.card-back-face {
   background: #ffffff;
   color: #fff;
   transform: rotateY(180deg);
@@ -58,7 +58,7 @@
 }
 
 .card-blue-area {
-  background: #f4c430;
+  background: #1d4ed8;
   clip-path: polygon(0% 0%, 100% 0%, 100% 73%, 0% 76%);
 }
 
